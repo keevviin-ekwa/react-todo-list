@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import uuid from "uuid/v4";
+import uuid from 'react-uuid'
 import './App.css';
 import TodoInput from './components/TodoInput';
 import TodoList from './components/TodoList';
@@ -9,7 +9,7 @@ class App extends Component {
 
   state={
     items:[],
-    id:require('uuid/v4'),
+    id: uuid(),
     item:"",
     editItem:false
   };
@@ -46,13 +46,22 @@ class App extends Component {
     });
   };
   handleDelete= id =>{
-    const filteredItems = this.state.items.filter(item=>item.id !==id);
+    const filteredItems = this.state.items.filter(item=>item.id !== id);
+    console.log(filteredItems);
     this.setState({
       items:filteredItems
     });
   }
-  handleEdit= (id)=>{
-      
+  handleEdit= id=>{
+    const filteredItems = this.state.items.filter(item => item.id !== id);
+    const selectedItem= this.state.items.find(item=> item.id === id);
+    this.setState({
+        items:filteredItems,
+        item:selectedItem,
+        id:id,
+        editItem:true
+    })
+
   }
 
 
