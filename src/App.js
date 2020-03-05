@@ -8,37 +8,51 @@ import 'bootstrap/dist/css/bootstrap.css'
 class App extends Component {
 
   state={
-    items:[
-      {
-        id:1,
-        title:"wake up"
-      },
-
-      {
-        id:2,
-        title:"make brakefast"
-      }
-    ],
-    id:uuid(),
-    item:'',
+    items:[],
+    id:require('uuid/v4'),
+    item:"",
     editItem:false
   };
-  handleChange= (e)=>{
-    console.log("changement");
-  }
+
+  handleChange= e =>{
+
+    this.setState({
+      item:e.target.value
+    })
+
+    console.log(this.state.item);
+  };
 
   clearList= (e)=>{
-    console.log("clearlist");
-  }
 
-  handleSubmit= (e)=>{
-    console.log("changement");
-  }
-  handleDelete= (id)=>{
-    console.log(`handle detele ${id}`);
+    this.setState({
+      items:[]
+    });
+  };
+
+  handleSubmit= e =>{
+    e.preventDefault();
+    const newItem={
+      id:this.state.id,
+      title:this.state.item
+    }
+
+    const updatedItems=[...this.state.items,newItem];
+    this.setState({
+      items:updatedItems,
+      item:'',
+      id: require('uuid/v4'),
+      editItem:false
+    });
+  };
+  handleDelete= id =>{
+    const filteredItems = this.state.items.filter(item=>item.id !==id);
+    this.setState({
+      items:filteredItems
+    });
   }
   handleEdit= (id)=>{
-    console.log(`handle detele ${id}`);
+      
   }
 
 
@@ -51,16 +65,16 @@ class App extends Component {
              <h3 className='text-capitalize text-center'>Todo Input</h3>
              <TodoInput
                 item={this.state.item }
-                handleChange={this.handleChange()}
-                handleSubmit={this.handleSubmit()}
+                handleChange={this.handleChange}
+                handleSubmit={this.handleSubmit}
                 editItem={this.state.editItem}
              />
 
              <TodoList
                  items={this.state.items}
-                 clearList={this.clearList()}
-                 handleDelete={this.handleDelete()}
-                 handleEdit={this.handleEdit()}
+                 clearList={this.clearList}
+                 handleDelete={this.handleDelete}
+                 handleEdit={this.handleEdit}
 
 
 
